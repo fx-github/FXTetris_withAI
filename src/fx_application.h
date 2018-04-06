@@ -1,10 +1,9 @@
-#ifndef __FX_APPLICATION_H__
+ï»¿#ifndef __FX_APPLICATION_H__
 #define __FX_APPLICATION_H__
 
-#include <string>
 #include <windows.h>
-
-#define FX_IDM_RESET 101
+#include <string>
+#include <vector>
 
 class FXApplication
 {
@@ -14,9 +13,9 @@ private:
 	}
 
 	//
-	//  º¯Êı: MyRegisterClass()
+	//  å‡½æ•°: MyRegisterClass()
 	//
-	//  Ä¿µÄ: ×¢²á´°¿ÚÀà¡£
+	//  ç›®çš„: æ³¨å†Œçª—å£ç±»ã€‚
 	//
 	ATOM MyRegisterClass(HINSTANCE hInstance)
 	{
@@ -36,24 +35,24 @@ private:
 		wcex.lpszClassName = m_szWindowClass.c_str();
 		wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-		return RegisterClassExW(&wcex);
+		return ::RegisterClassExW(&wcex);
 	}
 
 	//
-	//   º¯Êı: InitInstance(HINSTANCE, int)
+	//   å‡½æ•°: InitInstance(HINSTANCE, int)
 	//
-	//   Ä¿µÄ: ±£´æÊµÀı¾ä±ú²¢´´½¨Ö÷´°¿Ú
+	//   ç›®çš„: ä¿å­˜å®ä¾‹å¥æŸ„å¹¶åˆ›å»ºä¸»çª—å£
 	//
-	//   ×¢ÊÍ: 
+	//   æ³¨é‡Š: 
 	//
-	//        ÔÚ´Ëº¯ÊıÖĞ£¬ÎÒÃÇÔÚÈ«¾Ö±äÁ¿ÖĞ±£´æÊµÀı¾ä±ú²¢
-	//        ´´½¨ºÍÏÔÊ¾Ö÷³ÌĞò´°¿Ú¡£
+	//        åœ¨æ­¤å‡½æ•°ä¸­ï¼Œæˆ‘ä»¬åœ¨å…¨å±€å˜é‡ä¸­ä¿å­˜å®ä¾‹å¥æŸ„å¹¶
+	//        åˆ›å»ºå’Œæ˜¾ç¤ºä¸»ç¨‹åºçª—å£ã€‚
 	//
 	BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	{
-		m_hInst = hInstance; // ½«ÊµÀı¾ä±ú´æ´¢ÔÚÈ«¾Ö±äÁ¿ÖĞ
+		m_hInst = hInstance; // å°†å®ä¾‹å¥æŸ„å­˜å‚¨åœ¨å…¨å±€å˜é‡ä¸­
 
-		HWND hWnd = CreateWindowW(m_szWindowClass.c_str(), m_szTitle.c_str(), WS_OVERLAPPEDWINDOW,
+		HWND hWnd = ::CreateWindowW(m_szWindowClass.c_str(), m_szTitle.c_str(), WS_OVERLAPPEDWINDOW,
 			CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
 		if (!hWnd)
@@ -61,20 +60,20 @@ private:
 			return FALSE;
 		}
 
-		ShowWindow(hWnd, nCmdShow);
-		UpdateWindow(hWnd);
+		::ShowWindow(hWnd, nCmdShow);
+		::UpdateWindow(hWnd);
 
 		return TRUE;
 	}
 
 	//
-	//  º¯Êı: WndProc(HWND, UINT, WPARAM, LPARAM)
+	//  å‡½æ•°: WndProc(HWND, UINT, WPARAM, LPARAM)
 	//
-	//  Ä¿µÄ:    ´¦ÀíÖ÷´°¿ÚµÄÏûÏ¢¡£
+	//  ç›®çš„:    å¤„ç†ä¸»çª—å£çš„æ¶ˆæ¯ã€‚
 	//
-	//  WM_COMMAND  - ´¦ÀíÓ¦ÓÃ³ÌĞò²Ëµ¥
-	//  WM_PAINT    - »æÖÆÖ÷´°¿Ú
-	//  WM_DESTROY  - ·¢ËÍÍË³öÏûÏ¢²¢·µ»Ø
+	//  WM_COMMAND  - å¤„ç†åº”ç”¨ç¨‹åºèœå•
+	//  WM_PAINT    - ç»˜åˆ¶ä¸»çª—å£
+	//  WM_DESTROY  - å‘é€é€€å‡ºæ¶ˆæ¯å¹¶è¿”å›
 	//
 	//
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -84,7 +83,7 @@ private:
 		case WM_COMMAND:
 		{
 			int wmId = LOWORD(wParam);
-			// ·ÖÎö²Ëµ¥Ñ¡Ôñ: 
+			// åˆ†æèœå•é€‰æ‹©: 
 			switch (wmId)
 			{
 			case IDM_ABOUT:
@@ -93,8 +92,8 @@ private:
 //             case IDM_EXIT:
 //                 DestroyWindow(hWnd);
 //                 break;
-			case FX_IDM_RESET:
-				break;
+// 			case FX_IDM_RESET:
+// 				break;
 			default:
 				return DefWindowProc(hWnd, message, wParam, lParam);
 			}
@@ -104,7 +103,7 @@ private:
 		{
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hWnd, &ps);
-			// TODO: ÔÚ´Ë´¦Ìí¼ÓÊ¹ÓÃ hdc µÄÈÎºÎ»æÍ¼´úÂë...
+			// TODO: åœ¨æ­¤å¤„æ·»åŠ ä½¿ç”¨ hdc çš„ä»»ä½•ç»˜å›¾ä»£ç ...
 			EndPaint(hWnd, &ps);
 		}
 		break;
@@ -117,7 +116,7 @@ private:
 		return 0;
 	}
 
-	// ¡°¹ØÓÚ¡±¿òµÄÏûÏ¢´¦Àí³ÌĞò¡£
+	// â€œå…³äºâ€æ¡†çš„æ¶ˆæ¯å¤„ç†ç¨‹åºã€‚
 	static INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		UNREFERENCED_PARAMETER(lParam);
@@ -153,23 +152,26 @@ public:
 			return FALSE;
 		}
 
-		ACCEL accels[] = 
-		{
-			{ FCONTROL | FVIRTKEY, 'R', FX_IDM_RESET},
-		};
-		int accelsize = sizeof(accels) / sizeof(accels[0]);
-		HACCEL hAccelTable = CreateAcceleratorTable(accels, accelsize);
+// 		ACCEL accels[] = 
+// 		{
+// 			{ FCONTROL | FVIRTKEY, 'R', FX_IDM_RESET},
+// 		};
+// 		int accelsize = sizeof(accels) / sizeof(accels[0]);
+		m_hAccelTable = ::CreateAcceleratorTable(m_accels.data(), m_accels.size());
+// 		CopyAcceleratorTable()
 
 		MSG msg;
-		while (GetMessage(&msg, nullptr, 0, 0))
+		while (::GetMessage(&msg, nullptr, 0, 0))
 		{
-			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+			if (!::TranslateAccelerator(msg.hwnd, m_hAccelTable, &msg))
 			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
+				::TranslateMessage(&msg);
+				::DispatchMessage(&msg);
 			}
 		}
 
+		::DestroyAcceleratorTable(m_hAccelTable);
+		m_hAccelTable = nullptr;
 		return (int)msg.wParam;
 	}
 
@@ -182,10 +184,13 @@ public:
 private:
 	std::wstring m_szTitle;
 	std::wstring m_szWindowClass;
+	std::vector<ACCEL> m_accels;
 
-	static HINSTANCE m_hInst;
+	static HINSTANCE	m_hInst;
+	static HACCEL		m_hAccelTable;
 };
 
-HINSTANCE FXApplication::m_hInst = nullptr;
+HINSTANCE	FXApplication::m_hInst			= nullptr;
+HACCEL		FXApplication::m_hAccelTable	= nullptr;
 
 #endif // !__FX_APPLICATION_H__
