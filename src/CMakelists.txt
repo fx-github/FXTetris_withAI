@@ -1,0 +1,46 @@
+#project name
+PROJECT(FXTetris_withAI)
+
+CMAKE_MINIMUM_REQUIRED(VERSION 3.8)
+
+#head file path
+INCLUDE_DIRECTORIES(
+	.
+)
+
+#lib file path
+LINK_DIRECTORIES(
+)
+
+#source directory
+SET (SRC_LIST
+	fx_tetris_with_ai.cpp
+	fx_tetris_with_ai.h
+	FXTetris_withAI.ico
+	FXTetris_withAI.rc
+	fx_application.h
+	resource.h
+	small.ico
+	stdafx.cpp
+	stdafx.h
+	targetver.h
+)
+
+SET(LIB_SRC_LIST
+)
+
+#MESSAGE("CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}")
+MESSAGE("------------------------------${CMAKE_BUILD_TYPE}------------------------------")
+IF (CMAKE_BUILD_TYPE MATCHES "Release")
+	SET(CMAKE_CONFIGURATION_TYPES Release;MinSizeRel;RelWithDebInfo)
+ENDIF ()
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY FXTetris_withAI)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG FXTetris_withAI)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE FXTetris_withAI)
+
+#add executable file
+ADD_EXECUTABLE(FXTetris_withAI WIN32 ${SRC_LIST})
+
+#add link library
+#TARGET_LINK_LIBRARIES(../lib/lib ${LIB_SRC_LIST})
