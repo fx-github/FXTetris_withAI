@@ -8,4 +8,5 @@
 #define FX_IDM_MOVE_DOWN	102
 #define FX_IDM_ROTATE		102
 
+
 #endif // !__FX_TETRIS_DEF_H__

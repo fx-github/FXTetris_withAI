@@ -15,7 +15,7 @@ public:
 	~FXTetrisBlock();
 
 private:
-	FXPoint m_position;
+	fx::point m_position;
 };
 
 #endif // !__FX_TETRIS_BLOCK_H__

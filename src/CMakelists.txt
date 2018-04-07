@@ -6,6 +6,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.8)
 #head file path
 INCLUDE_DIRECTORIES(
 	.
+	../fx_lib/include
 )
 
 #lib file path
@@ -14,8 +15,8 @@ LINK_DIRECTORIES(
 
 #source directory
 SET (SRC_LIST
-	fx_application.h
-	fx_point.h
+	../fx_lib/include/fx_application.h
+	../fx_lib/include/fx_point.h
 	fx_tetris.cpp
 	fx_tetris.h
 	fx_tetris_block.cpp
